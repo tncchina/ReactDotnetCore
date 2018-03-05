@@ -64,3 +64,8 @@
         text-overflow: ellipsis;
     }
 }
+
+img {
+    max-width: 1000px;
+    max-height: 1000px;
+}
