@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace my_new_app.Controllers
+namespace tnc_ai_web.Controllers
 {
     public class HomeController : Controller
     {

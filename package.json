@@ -1,5 +1,5 @@
 {
-  "name": "my_new_app",
+  "name": "tnc_ai_web",
   "private": true,
   "version": "0.0.0",
   "devDependencies": {
@@ -32,6 +32,5 @@
     "url-loader": "0.5.9",
     "webpack": "2.5.1",
     "webpack-hot-middleware": "2.18.2"
-
   }
 }
