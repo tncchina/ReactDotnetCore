@@ -22,7 +22,7 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-
+wwwroot/dist
 *.swp
 *.*~
 project.lock.json
