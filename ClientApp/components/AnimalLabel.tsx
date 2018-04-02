@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-const logo = require('./logo.svg') as string;
 
 // Use Javascript module in Typescript
 // https://stackoverflow.com/questions/38224232/how-to-consume-npm-modules-from-typescript
@@ -12,7 +11,7 @@ interface CounterState {
     prediction: string;
 }
 
-export class FetchData extends React.Component<RouteComponentProps<{}>, CounterState> {
+export class AnimalLabel extends React.Component<RouteComponentProps<{}>, CounterState> {
     constructor(props: any) {
         super(props);
         this.state = { url: "", prediction: "" };
@@ -50,7 +49,7 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, CounterS
     render() {
         return <div>
             <header className="App-header">
-                <img src={logo} alt="logo" />
+                <img src='./../css/china_river.jpg' alt="logo" />
                 <h1 className="App-title">Welcome to TNC-AI</h1>
             </header>
             <input type="file" onChange={(e) => this.handleChange(e.target.files)} />
