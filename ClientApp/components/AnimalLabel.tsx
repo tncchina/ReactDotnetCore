@@ -1,23 +1,31 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import {ReactImageUploadComponent} from 'react-images-upload';
 
 // Use Javascript module in Typescript
 // https://stackoverflow.com/questions/38224232/how-to-consume-npm-modules-from-typescript
-const ImageUploader: any = require('react-images-upload');
+// const ImageUploader: any = require('react-images-upload');
 
 interface CounterState {
     url: string;
     prediction: string;
+    pictures: FileList | null;
 }
 
 export class AnimalLabel extends React.Component<RouteComponentProps<{}>, CounterState> {
     constructor(props: any) {
         super(props);
-        this.state = { url: "", prediction: "" };
+        this.state = { url: "", prediction: "", pictures: null };
         this.handleChange = this.handleChange.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
-
+    onDrop(picture: FileList) {
+        this.setState({
+            pictures: picture,
+        });
+    }
+ 
     handleChange(pictures: FileList | null) {
         if (pictures == null)
             return;
@@ -57,6 +65,13 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
                 <figcaption> {this.state.prediction} </figcaption>
                 <img src={this.state.url} alt='photoUrl' />
             </figure>
+            <ReactImageUploadComponent
+                withIcon={true}
+                buttonText='Choose images'
+                onChange={this.onDrop}
+                imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                maxFileSize={5242880}
+            />
         </div>;
     }
 }
