@@ -49,7 +49,7 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     render() {
         return <div>
             <header className="App-header">
-                <img src='./../css/china_river.jpg' alt="logo" />
+                <img src='/images/chinariver.jpg' alt="logo" />
                 <h1 className="App-title">Welcome to TNC-AI</h1>
             </header>
             <input type="file" onChange={(e) => this.handleChange(e.target.files)} />
