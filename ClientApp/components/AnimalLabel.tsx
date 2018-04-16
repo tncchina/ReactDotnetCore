@@ -52,6 +52,9 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
                 console.log("Prediction: " + json['Prediction']);
                 this.setState({ url: json['PhotoUrl'], prediction: json['Prediction'] });
             }).catch(err => console.log(err));
+
+            let v =new ReactImageUploadComponent();
+            v.withIcon
     }
 
     render() {
