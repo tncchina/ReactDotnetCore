@@ -3,12 +3,12 @@ import { Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { AnimalLabel } from './components/AnimalLabel';
-import { Counter } from './components/Counter';
-import { Tech } from './components/Tech';
+import { Reports } from './components/Reports';
+import { Contact } from './components/Contact';
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
-    <Route path='/Counter' component={ Counter } />
+    <Route path='/Reports' component={Reports } />
     <Route path='/AnimalLabel' component={AnimalLabel} />
-    <Route path='/Tech' component={Tech} />
+    <Route path='/Contact' component={Contact} />
 </Layout>;

@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\components\Tech.tsx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\images\logo.svg" />
   </ItemGroup>
 
