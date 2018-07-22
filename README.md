@@ -1,8 +1,8 @@
 "# ReactDotNetCore" 
 
-** Launch steps:
-1: npm install
-2: dotnet run
+## Launch steps:
+1. npm install
+2. dotnet run
 
 [Dotnet Core: Use the react project template](https://docs.microsoft.com/en-us/aspnet/core/spa/react?tabs=visual-studio)
 
