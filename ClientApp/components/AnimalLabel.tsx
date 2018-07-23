@@ -25,32 +25,44 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
 
         console.log(pictures);
 
-        var formData = new FormData();
-        for(var name in pictures){
-            formData.append(name, pictures[name]);
-        }
-        fetch('https://tnc-ai-web-api.azurewebsites.net/api/storage/photoUpload', {
+        var payload = {
+            id: "string",
+            tag: "string",
+            imageName: "string",
+            fileFormat: "string",
+            imageBlob: "string",
+            uploadBlobSASUrl: "string",
+            downloadBlobSASUrl: "string",
+            notes: "string"
+        };
+
+        var data = new FormData();
+        data.append("json", JSON.stringify(payload));
+
+        fetch('http://localhost:55464/api/storage/Upload', {
             method: 'POST',
+            mode: 'no-cors',
             headers: new Headers({
-                'Access-Control-Allow-Origin': '*',
+                'accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json;charset=UTF-8'
             }),
-            body: formData
+            body: JSON.stringify(payload)
         }).then((response) => {
             return response.json();
         })
-            .then((json) => {
-                console.log("Name: " + json['PhotoName']);
-                console.log("PhotoUrl: " + json['PhotoUrl']);
-                console.log("Prediction: " + json['Prediction']);
-                this.setState({ url: json['PhotoUrl'], prediction: json['Prediction'] });
-            }).catch(err => console.log(err));
+        .then((json) => {
+            console.log("Name: " + json['PhotoName']);
+            console.log("PhotoUrl: " + json['PhotoUrl']);
+            console.log("Prediction: " + json['Prediction']);
+            this.setState({ url: json['PhotoUrl'], prediction: json['Prediction'] });
+        }).catch(err => console.log(err));
     }
 
     render() {
         return <div>
             <header className="App-header">
                 <img src='/images/chinariver.jpg' alt="logo" />
-                <h1 className="App-title">Upload a pooto to see the prediction.</h1>
+                <h1 className="App-title">Upload longhan a pooto to see the prediction.</h1>
             </header>
             <input type="file" onChange={(e) => this.handleChange(e.target.files)} />
             <figure>
