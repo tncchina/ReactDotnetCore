@@ -19,42 +19,36 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     }
 
     handleChange(pictures: FileList | null) {
-        if (pictures == null)
+        if (pictures == null || pictures.length==0)
             return;
 
-
-        console.log(pictures);
-
-        var payload = {
-            id: "string",
-            tag: "string",
-            imageName: "string",
-            fileFormat: "string",
-            imageBlob: "string",
-            uploadBlobSASUrl: "string",
-            downloadBlobSASUrl: "string",
-            notes: "string"
+        var picture = pictures[0];
+        var nameformats = picture.name.split('.');
+        if (nameformats.length <= 1) {
+            console.log("Invalid file format, '.' expected.");
+            return;
+        }
+        var uploadTestData = {
+            'imageName': nameformats[0],
+            'fileFormat': nameformats[1]
         };
 
-        var data = new FormData();
-        data.append("json", JSON.stringify(payload));
-
-        fetch('http://localhost:55464/api/storage/Upload', {
+        fetch('http://tncapi.azurewebsites.net/api/storage/Upload2', {
             method: 'POST',
-            mode: 'no-cors',
+            mode: "cors",
+            cache: "no-cache",
             headers: new Headers({
-                'accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json;charset=UTF-8'
+                'accept': 'text/plain',
+                'Content-Type': 'application/json-patch+json'
             }),
-            body: JSON.stringify(payload)
+            body: JSON.stringify(uploadTestData)
         }).then((response) => {
             return response.json();
-        })
-        .then((json) => {
-            console.log("Name: " + json['PhotoName']);
-            console.log("PhotoUrl: " + json['PhotoUrl']);
-            console.log("Prediction: " + json['Prediction']);
-            this.setState({ url: json['PhotoUrl'], prediction: json['Prediction'] });
+        }).then((json) => {
+            // Comment this code since the return object does not match the schema
+             console.log("Name: " + json['imageBlob']);
+            console.log("PhotoUrl: " + json['uploadBlobSASUrl']);
+            console.log(json);
         }).catch(err => console.log(err));
     }
 
