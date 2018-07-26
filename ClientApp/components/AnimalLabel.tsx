@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import * as azureblob from '../resources/azurestoragejs-2.10.100/bundle/azure-storage.blob';
+var storage = azureblob.createBlobService();
+const blobService = storage.createBlobService();
 
 // Use Javascript module in Typescript
 // https://stackoverflow.com/questions/38224232/how-to-consume-npm-modules-from-typescript
@@ -49,7 +52,19 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
              console.log("Name: " + json['imageBlob']);
             console.log("PhotoUrl: " + json['uploadBlobSASUrl']);
             console.log(json);
-        }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
+
+        const upload = () => {
+            return new Promise((resolve: any, reject: any) => {
+                blobService.createBlockBlobFromLocalFile('containerName', 'blobName', 'sourceFilePath', err => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve({ message: `Upload of '${blobName}' complete` });
+                    }
+                });
+            });
+        };
     }
 
     render() {
