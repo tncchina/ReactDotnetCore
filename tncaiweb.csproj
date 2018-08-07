@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\Common\iblob-info.d.ts" />
     <None Remove="ClientApp\components\Tech.tsx" />
   </ItemGroup>
 
@@ -43,6 +44,10 @@
 
   <ItemGroup>
     <None Include="wwwroot\images\logo.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\Common\iblob-info.d.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
