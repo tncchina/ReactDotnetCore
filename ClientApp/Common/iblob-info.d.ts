@@ -3,4 +3,5 @@
     sasToken: string;
     containerName: string;
     blobName: string;
+    fileName: string;
 }
