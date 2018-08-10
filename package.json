@@ -11,6 +11,8 @@
     "@types/react-router-dom": "4.0.5",
     "@types/webpack-env": "1.13.0",
     "@types/ng-file-upload": "12.2.2",
+    "azure-storage": "2.10.0",
+    "@types/azure": "0.9.19",
     "aspnet-webpack": "^2.0.1",
     "aspnet-webpack-react": "^3.0.0",
     "awesome-typescript-loader": "3.2.1",
@@ -32,5 +34,11 @@
     "url-loader": "0.5.9",
     "webpack": "2.5.1",
     "webpack-hot-middleware": "2.18.2"
+  },
+  "dependencies": {
+    "azure-storage": "^2.10.0",
+    "csv-parser": "^1.12.1",
+    "d3-request": "^1.0.6",
+    "sax": "^0.5.8"
   }
 }

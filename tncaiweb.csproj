@@ -21,11 +21,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\Common\iblob-info.d.ts" />
     <None Remove="ClientApp\components\Tech.tsx" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.blob.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.blob.min.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.file.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.file.min.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.queue.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.queue.min.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.table.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\bundle\azure-storage.table.min.js" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\samples\cors.PNG" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\samples\sample-blob.html" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\samples\sample-file.html" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\samples\sample-queue.html" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\samples\sample-table.html" />
+    <Content Include="ClientApp\resources\azurestoragejs-2.10.100\ThirdPartyNotice.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\images\logo.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\Common\iblob-info.d.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
