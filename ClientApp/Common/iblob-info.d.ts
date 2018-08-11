@@ -4,4 +4,5 @@
     containerName: string;
     blobName: string;
     fileName: string;
+    hostUri: string;
 }
