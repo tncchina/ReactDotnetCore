@@ -22,6 +22,12 @@ module.exports = (env) => {
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
+        watchOptions: {
+            ignored: [
+                path.join(__dirname, bundleOutputDir),
+                'node_modules'
+            ]
+        },
         plugins: [
             new CheckerPlugin(),
             new webpack.DllReferencePlugin({
