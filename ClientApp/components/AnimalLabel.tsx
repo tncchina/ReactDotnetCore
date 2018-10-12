@@ -3,14 +3,19 @@ import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import * as azureblob from '../resources/azurestoragejs-2.10.100/bundle/azure-storage.blob';
 import { IBlobInfo } from '../Common/iblob-info';
+import { ImageContainer } from './image-container';
+const md5File = require('md5-file')
+
+console.log(md5File);
 
 // Use Javascript module in Typescript
 // https://stackoverflow.com/questions/38224232/how-to-consume-npm-modules-from-typescript
-const ImageUploader: any = require('react-images-upload');
+//const ImageUploader: any = require('react-images-upload');
 
 interface CounterState {
     imageUrl: string;
     prediction: any[];
+    images: FileList | null;
 }
 
 export class AnimalLabel extends React.Component<RouteComponentProps<{}>, CounterState> {
@@ -18,7 +23,11 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
 
     constructor(props: any) {
         super(props);
-        this.state = { imageUrl: "", prediction: [] };
+        this.state = { 
+            imageUrl: "",
+            prediction: [],
+            images: null
+        };
         this.handleChange = this.handleChange.bind(this);
         this.blobInfo = {
             blobUri: "",
@@ -35,6 +44,15 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             return;
 
         const picture: File = pictures[0];
+        // var tmppath1 = URL.createObjectURL(pictures[0]);
+        // var tmppath2 = URL.createObjectURL(pictures[1]);
+        // console.log(`The paths are: ${tmppath1}   +    ${tmppath2}`)
+
+
+        // const hash1 = (md5File as any).sync(tmppath1);
+        // const hash2 = (md5File as any).sync(tmppath2)
+        // console.log(`The MD5 hash results are: ${hash1}   +    ${hash2}`)
+
         const nameformats: string[] = picture.name.split('.');
         if (nameformats.length <= 1) {
             console.log("Invalid file format, '.' expected.");
@@ -62,12 +80,22 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
 
         this.setState({
             imageUrl: URL.createObjectURL(picture),
-            prediction: []
+            prediction: [], 
+            images: pictures
         });
     }
 
     public render(): JSX.Element {
+        if (this.state.imageUrl.length > 0) {
+            return (
+                <ImageContainer
+                    images={this.state.images}
+                />
+
+            );
+        }
         return (
+            
             <div>
                 <header className="App-header">
                     <img
@@ -78,7 +106,7 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
                 </header>
                 <br />
                 {
-                    <input type="file" onChange={(e) => this.handleChange(e.target.files)} />
+                    <input type="file" multiple onChange={(e) => this.handleChange(e.target.files)} />
                 }
                 <br />
                 <figure>
@@ -174,5 +202,9 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             }
         }
         return <h1>{message}</h1>
+    }
+
+    private uploadImage() {
+
     }
 }
