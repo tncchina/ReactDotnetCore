@@ -3,10 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import * as azureblob from '../resources/azurestoragejs-2.10.100/bundle/azure-storage.blob';
 import { IBlobInfo } from '../Common/iblob-info';
-import { ImageContainer } from './image-container';
-const md5File = require('md5-file')
-
-console.log(md5File);
+import { ImageGallery } from './image-gallery';
 
 // Use Javascript module in Typescript
 // https://stackoverflow.com/questions/38224232/how-to-consume-npm-modules-from-typescript
@@ -88,14 +85,13 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     public render(): JSX.Element {
         if (this.state.imageUrl.length > 0) {
             return (
-                <ImageContainer
+                <ImageGallery
                     images={this.state.images}
                 />
 
             );
         }
         return (
-            
             <div>
                 <header className="App-header">
                     <img
