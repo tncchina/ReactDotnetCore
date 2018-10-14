@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Grid, Row, Col, Image } from "react-bootstrap";
+import { ImageContainer } from './image-container';
 
 export interface ImageGalleryProps {
     images: FileList | null;
@@ -7,7 +8,6 @@ export interface ImageGalleryProps {
 
 export class ImageGallery extends React.Component<ImageGalleryProps> {
     public render(): JSX.Element | null {
-
         if (this.props.images === null) {
             return null;
         }
@@ -16,9 +16,9 @@ export class ImageGallery extends React.Component<ImageGalleryProps> {
             const row: JSX.Element[] = [];
             for (let j = i * 4; j < i * 4 + 4 && j < this.props.images.length; ++j) {
                 row.push(
-                    <Col xs={6} md={3}>
-                        <Image src={this.getImageUrl(this.props.images[j])} thumbnail />
-                    </Col>
+                    <ImageContainer
+                        image={this.props.images[j]}
+                    />
                 );
             }
             rows.push(
@@ -32,9 +32,5 @@ export class ImageGallery extends React.Component<ImageGalleryProps> {
                 {rows}
             </Grid>
         );
-    }
-
-    private getImageUrl(img: File): string {
-        return URL.createObjectURL(img);
     }
 }
