@@ -25,6 +25,14 @@
       "integrity": "sha512-3GrHCRZS62ruJjHMtOx3WYsS0I8i0FRcIqOwqIfWXnlR9g2FebEhUNdMk3LZIvfhZ08xe+S1x2iwP1t9vKCHag==",
       "dev": true
     },
+    "@types/autobind-decorator": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@types/autobind-decorator/-/autobind-decorator-2.1.0.tgz",
+      "integrity": "sha512-OOS4XPWJEs3MSuya0wy2om9T//PIapkyXdkCqf1t9Rlh3yDs2/wSj6LdmHNWX9ZtxR+DoOcMnWb7LQrkJFT2uQ==",
+      "requires": {
+        "autobind-decorator": "2.1.0"
+      }
+    },
     "@types/azure": {
       "version": "0.9.19",
       "resolved": "https://registry.npmjs.org/@types/azure/-/azure-0.9.19.tgz",
@@ -419,6 +427,11 @@
       "version": "0.4.0",
       "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
       "integrity": "sha1-x57Zf380y48robyXkLzDZkdLS3k="
+    },
+    "autobind-decorator": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/autobind-decorator/-/autobind-decorator-2.1.0.tgz",
+      "integrity": "sha512-bgyxeRi1R2Q8kWpHsb1c+lXCulbIAHsyZRddaS+agAUX3hFUVZMociwvRgeZi1zWvfqEEjybSv4zxWvFV8ydQQ=="
     },
     "awesome-typescript-loader": {
       "version": "3.2.1",

@@ -41,14 +41,6 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             return;
 
         const picture: File = pictures[0];
-        // var tmppath1 = URL.createObjectURL(pictures[0]);
-        // var tmppath2 = URL.createObjectURL(pictures[1]);
-        // console.log(`The paths are: ${tmppath1}   +    ${tmppath2}`)
-
-
-        // const hash1 = (md5File as any).sync(tmppath1);
-        // const hash2 = (md5File as any).sync(tmppath2)
-        // console.log(`The MD5 hash results are: ${hash1}   +    ${hash2}`)
 
         const nameformats: string[] = picture.name.split('.');
         if (nameformats.length <= 1) {
