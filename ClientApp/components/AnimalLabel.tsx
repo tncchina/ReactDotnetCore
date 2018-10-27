@@ -45,32 +45,12 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             images.push(pictures[i]);
         }
 
-        images.forEach((image: File) => {
+        images.forEach((image: File, index: number) => {
             const nameformats: string[] = image.name.split('.');
             if (nameformats.length <= 1) {
                 console.log("Invalid file format, '.' expected.");
                 return;
             }
-            const uploadTestData = {
-                imageName: image.name
-            };
-            //debugger;
-            fetch('http://tncapi.azurewebsites.net/api/storage/Upload2', {
-                method: 'POST',
-                mode: "cors",
-                cache: "no-cache",
-                headers: new Headers({
-                    'accept': 'text/plain',
-                    'Content-Type': 'application/json-patch+json'
-                }),
-                body: JSON.stringify(uploadTestData)
-            }).then((response) => {
-                return response.json();
-            }).then((json) => {
-            
-                this.blobInfo = this.getBlobInfo(json['uploadBlobSASUrl']);
-                this.uploadImageToBlob(this.blobInfo, image);
-            }).catch(err => console.log(err));
         });
 
         this.setState({
@@ -83,7 +63,6 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     }
 
     public render(): JSX.Element {
-       // debugger;
         if (this.state.imageUrl.length > 0) {
             return (
                 <ImageGallery
@@ -110,69 +89,6 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
         );
     }
 
-    private getBlobInfo(blobInfoUrl: string): IBlobInfo {
-        //Remove https:// prefix
-        const url: string = blobInfoUrl.substring(8);
-        const subStrs: string[] = url.split('/').join(',').split('?').join(',').split(',');
-        const blobInfo: IBlobInfo = {
-            hostUri: `https://${subStrs[0]}`,
-            blobName: subStrs[2],
-            fileName: subStrs[3],
-            containerName: subStrs[1],
-            sasToken: `?${subStrs[4]}`,
-            blobUri: `https://${subStrs[0]}/${subStrs[1]}/${subStrs[2]}/${subStrs[3]}`
-        };
-
-        return blobInfo;
-    }
-
-    public uploadImageToBlob(blobInfo: IBlobInfo, picture: File): void {
-        const blobService = azureblob.createBlobServiceWithSas(blobInfo.hostUri, blobInfo.sasToken);
-        const file = picture;
-        const blockSize = file.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
-        const options = {
-            blockSize: blockSize
-        };
-
-        
-        const speedSummary = blobService.createBlockBlobFromBrowserFile(blobInfo.containerName, `${blobInfo.blobName}/${blobInfo.fileName}`, file, options, (uploadError: any, blobResponse: any, uploadResponse: any) => {
-            if (uploadError) {
-                console.log(uploadError);
-            } else {
-                this.sendPredictionRequest(blobInfo.blobUri);
-            }
-        });
-
-        // this part of the code can be used to create a progress bar for uploading (under development)
-        speedSummary.on('progress', () => {
-            const process = speedSummary.getCompletePercent();
-        });
-    }
-
-    private sendPredictionRequest(blobUri: string): void {
-        fetch('http://localhost:55464/api/prediction/cntk', {
-            method: 'POST',
-            mode: "cors",
-            cache: "no-cache",
-            headers: new Headers({
-                'accept': 'text/plain',
-                'Content-Type': 'application/json-patch+json'
-            }),
-            body: JSON.stringify(blobUri)
-        }).then((response) => {
-            console.log('[response]:', response, blobUri);
-            return response.json();
-        }).then((json) => {
-            console.log('[prediction]: ', json, blobUri);
-            if (!json["Predictions"]) {
-                return;
-            }
-            this.setState({
-                prediction: json["Predictions"]
-            });
-        }).catch(err => console.log('[err]: ', err, blobUri));
-    }
-
     private convertExponentialToPercentage(num: string): string {
         return Number(num).toFixed(5);
     }
@@ -190,21 +106,17 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
         );
     }
 
-    private renderDescriptionMessage(): JSX.Element {
-        let message: string = "";
-        if (this.state.imageUrl.length == 0) {
-            message = "Upload a photo to see the prediction";
-        } else {
-            if (this.state.prediction.length == 0) {
-                message = "Wait for your prediction result......";
-            } else {
-                message = "Here are the prediction results and you can upload another photo."
-            }
-        }
-        return <h1>{message}</h1>
-    }
-
-    private uploadImage() {
-
-    }
+    // private renderDescriptionMessage(): JSX.Element {
+    //     let message: string = "";
+    //     if (this.state.imageUrl.length == 0) {
+    //         message = "Upload a photo to see the prediction";
+    //     } else {
+    //         if (this.state.prediction.length == 0) {
+    //             message = "Wait for your prediction result......";
+    //         } else {
+    //             message = "Here are the prediction results and you can upload another photo."
+    //         }
+    //     }
+    //     return <h1>{message}</h1>
+    // }
 }
