@@ -3,7 +3,8 @@ import { Grid, Row, Col, Image } from "react-bootstrap";
 import { ImageContainer } from './image-container';
 
 export interface ImageGalleryProps {
-    images: FileList | null;
+    images: File[];
+    prediction: any[];
 }
 
 export class ImageGallery extends React.Component<ImageGalleryProps> {
@@ -18,6 +19,7 @@ export class ImageGallery extends React.Component<ImageGalleryProps> {
                 row.push(
                     <ImageContainer
                         image={this.props.images[j]}
+                        prediction={this.props.prediction}
                     />
                 );
             }

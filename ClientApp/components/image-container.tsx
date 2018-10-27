@@ -5,6 +5,7 @@ import { ImageUploader } from '../Common/image-uploader';
 
 export interface ImageContainerProps {
     image: File;
+    prediction: any[];
 }
 
 export interface ImageContainerState {
@@ -12,8 +13,15 @@ export interface ImageContainerState {
 }
 
 export class ImageContainer extends React.Component<ImageContainerProps, ImageContainerState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            prediction: []
+        };
+    }
+
     public render(): JSX.Element {
-        if (this.state.prediction) {
+        if (this.props.prediction.length > 0) {
             return <p>Prediction is ready</p>
         } else {
             return (

@@ -10,9 +10,9 @@ import { ImageGallery } from './image-gallery';
 //const ImageUploader: any = require('react-images-upload');
 
 interface CounterState {
-    imageUrl: string;
+    imageUrl: string[];
     prediction: any[];
-    images: FileList | null;
+    images: File[];
 }
 
 export class AnimalLabel extends React.Component<RouteComponentProps<{}>, CounterState> {
@@ -20,10 +20,10 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
 
     constructor(props: any) {
         super(props);
-        this.state = { 
-            imageUrl: "",
+        this.state = {
+            imageUrl: [],
             prediction: [],
-            images: null
+            images: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.blobInfo = {
@@ -40,45 +40,55 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
         if (pictures == null || pictures.length == 0)
             return;
 
-        const picture: File = pictures[0];
-
-        const nameformats: string[] = picture.name.split('.');
-        if (nameformats.length <= 1) {
-            console.log("Invalid file format, '.' expected.");
-            return;
+        const images: File[] = [];
+        for (var i = 0; i < pictures.length; ++i) {
+            images.push(pictures[i]);
         }
-        const uploadTestData = {
-            imageName: picture.name
-        };
 
-        fetch('http://tncapi.azurewebsites.net/api/storage/Upload2', {
-            method: 'POST',
-            mode: "cors",
-            cache: "no-cache",
-            headers: new Headers({
-                'accept': 'text/plain',
-                'Content-Type': 'application/json-patch+json'
-            }),
-            body: JSON.stringify(uploadTestData)
-        }).then((response) => {
-            return response.json();
-        }).then((json) => {
-            this.blobInfo = this.getBlobInfo(json['uploadBlobSASUrl']);
-            this.uploadImageToBlob(this.blobInfo, picture);
-        }).catch(err => console.log(err));
+        images.forEach((image: File) => {
+            const nameformats: string[] = image.name.split('.');
+            if (nameformats.length <= 1) {
+                console.log("Invalid file format, '.' expected.");
+                return;
+            }
+            const uploadTestData = {
+                imageName: image.name
+            };
+            //debugger;
+            fetch('http://tncapi.azurewebsites.net/api/storage/Upload2', {
+                method: 'POST',
+                mode: "cors",
+                cache: "no-cache",
+                headers: new Headers({
+                    'accept': 'text/plain',
+                    'Content-Type': 'application/json-patch+json'
+                }),
+                body: JSON.stringify(uploadTestData)
+            }).then((response) => {
+                return response.json();
+            }).then((json) => {
+            
+                this.blobInfo = this.getBlobInfo(json['uploadBlobSASUrl']);
+                this.uploadImageToBlob(this.blobInfo, image);
+            }).catch(err => console.log(err));
+        });
 
         this.setState({
-            imageUrl: URL.createObjectURL(picture),
-            prediction: [], 
-            images: pictures
+            imageUrl: images.map((image: File) => {
+                return URL.createObjectURL(image);
+            }),
+            prediction: [],
+            images: images
         });
     }
 
     public render(): JSX.Element {
+       // debugger;
         if (this.state.imageUrl.length > 0) {
             return (
                 <ImageGallery
                     images={this.state.images}
+                    prediction={this.state.prediction}
                 />
 
             );
@@ -86,11 +96,7 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
         return (
             <div>
                 <header className="App-header">
-                    <img
-                        src={this.state.imageUrl.length == 0 ? '/images/chinariver.jpg' : this.state.imageUrl}
-                        alt="animal image or placeholder"
-                    />
-                    {this.renderDescriptionMessage()}
+                    Please upload images to predicat
                 </header>
                 <br />
                 {
@@ -128,6 +134,7 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             blockSize: blockSize
         };
 
+        
         const speedSummary = blobService.createBlockBlobFromBrowserFile(blobInfo.containerName, `${blobInfo.blobName}/${blobInfo.fileName}`, file, options, (uploadError: any, blobResponse: any, uploadResponse: any) => {
             if (uploadError) {
                 console.log(uploadError);
@@ -143,7 +150,7 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     }
 
     private sendPredictionRequest(blobUri: string): void {
-        fetch('http://tncapi.azurewebsites.net/api/prediction/cntk', {
+        fetch('http://localhost:55464/api/prediction/cntk', {
             method: 'POST',
             mode: "cors",
             cache: "no-cache",
@@ -153,12 +160,17 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
             }),
             body: JSON.stringify(blobUri)
         }).then((response) => {
+            console.log('[response]:', response, blobUri);
             return response.json();
         }).then((json) => {
+            console.log('[prediction]: ', json, blobUri);
+            if (!json["Predictions"]) {
+                return;
+            }
             this.setState({
                 prediction: json["Predictions"]
             });
-        }).catch(err => console.log(err));
+        }).catch(err => console.log('[err]: ', err, blobUri));
     }
 
     private convertExponentialToPercentage(num: string): string {
