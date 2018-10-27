@@ -8,7 +8,8 @@ import * as azureblob from '../resources/azurestoragejs-2.10.100/bundle/azure-st
 export interface ImageContainerProps {
     image: File;
     prediction: any[];
-    index: number
+    index: number;
+    location: string;
 }
 
 export interface ImageContainerState {
@@ -54,7 +55,8 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
                 'Content-Type': 'application/json-patch+json'
             }),
             body: JSON.stringify({
-                imageName: this.props.image.name
+                imageName: this.props.image.name,
+                notes: this.props.location
             })
         }).then((response) => {
             return response.json();

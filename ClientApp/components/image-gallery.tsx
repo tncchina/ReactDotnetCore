@@ -5,6 +5,7 @@ import { ImageContainer } from './image-container';
 export interface ImageGalleryProps {
     images: File[];
     prediction: any[];
+    location: string;
 }
 
 export class ImageGallery extends React.Component<ImageGalleryProps> {
@@ -19,6 +20,7 @@ export class ImageGallery extends React.Component<ImageGalleryProps> {
                         image={this.props.images[j]}
                         prediction={this.props.prediction}
                         index={i}
+                        location={this.props.location}
                     />
                 );
             }
@@ -30,6 +32,7 @@ export class ImageGallery extends React.Component<ImageGalleryProps> {
         }
         return (
             <Grid>
+                <h3>{this.props.location}</h3>
                 {rows}
             </Grid>
         );
