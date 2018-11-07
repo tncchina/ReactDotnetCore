@@ -46,7 +46,6 @@ export class NavMenu extends React.Component {
     }
 
     private onLabelItemsClick() {
-        debugger;
         setTimeout(() => {
             $(".label-nav").removeClass('active');
             document.getElementById("label-dropdown")!.style.backgroundColor = "#e7e7e7";
