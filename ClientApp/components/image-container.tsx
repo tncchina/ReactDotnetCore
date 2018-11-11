@@ -46,7 +46,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     }
 
     private getBlob(): Promise<any> {
-        return fetch('http://tncapi.azurewebsites.net/api/storage/Upload2', {
+        return fetch('https://tncapi.azurewebsites.net/api/storage/Upload2', {
             method: 'POST',
             mode: "cors",
             cache: "no-cache",
@@ -122,7 +122,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     }
 
     private sendPredictionRequest(blobUri: string): void {
-        fetch('http://tncapi.azurewebsites.net/api/prediction/cntk', {
+        fetch('https://tncapi.azurewebsites.net/api/prediction/cntk', {
             method: 'POST',
             mode: "cors",
             cache: "no-cache",
