@@ -17,6 +17,8 @@ export interface ImageContainerState {
 }
 
 export class ImageContainer extends React.Component<ImageContainerProps, ImageContainerState> {
+    private static predictionResultNum: number = 1;
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -82,7 +84,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     private renderPrediction(): JSX.Element {
         const predictionResults = this.state.prediction.sort((a: any, b: any) => {
             return parseFloat(a.Probability) < parseFloat(b.Probability) ? 1 : -1;
-        }).slice(0, 3).map((result, index) =>
+        }).slice(0, ImageContainer.predictionResultNum).map((result, index) =>
             <li key={index}>
                 <span className="animal-name-tag">{result["Tag"]}:</span>
                 <span>{this.convertExponentialToPercentage(result["Probability"])}</span>
@@ -95,7 +97,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     }
 
     private convertExponentialToPercentage(num: string): string {
-        return Number(num).toFixed(5);
+        return (Number(num) * 100).toFixed(2) + "%";
     }
 
     private uploadImageToBlob(blobInfo: IBlobInfo, picture: File): void {
@@ -122,7 +124,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     }
 
     private sendPredictionRequest(blobUri: string): void {
-        fetch('https://tncapi.azurewebsites.net/api/prediction/cntk', {
+        fetch('https://tncapi.azurewebsites.net/api/prediction/cntknet', {
             method: 'POST',
             mode: "cors",
             cache: "no-cache",
@@ -135,6 +137,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
             console.log('[response]:', response, blobUri);
             return response.json();
         }).then((json) => {
+            console.log(json);
             console.log('[prediction]: ', json, blobUri);
             if (!json["Predictions"]) {
                 return;
