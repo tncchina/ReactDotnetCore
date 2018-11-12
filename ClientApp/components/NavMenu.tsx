@@ -20,11 +20,9 @@ export class NavMenu extends React.Component {
                         <LinkContainer exact to="/" className="home-nav" onClick={this.onNavItemClick}>
                             <NavItem>Home</NavItem>
                         </LinkContainer>
-                        <NavDropdown id="label-dropdown" onClick={this.onNavDropdownClick} eventKey={3} title="Wildlife Label">
-                            <LinkContainer exact to="/AnimalLabel" className="label-nav">
-                                <MenuItem onClick={this.onLabelItemsClick} eventKey={3.1}>Predict</MenuItem>
-                            </LinkContainer>
-                        </NavDropdown>
+                        <LinkContainer exact to="/AnimalLabel" onClick={this.onLabelItemsClick}>
+                            <NavItem>Predict</NavItem>
+                        </LinkContainer>
                         <LinkContainer exact to="/Reports" onClick={this.onNavItemClick}>
                             <NavItem>Reports</NavItem>
                         </LinkContainer>
