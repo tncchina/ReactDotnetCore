@@ -17,36 +17,21 @@ export class NavMenu extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav pullRight>
-                        <LinkContainer exact to="/" className="home-nav" onClick={this.onNavItemClick}>
+                        <LinkContainer exact to="/" className="home-nav">
                             <NavItem>Home</NavItem>
                         </LinkContainer>
-                        <LinkContainer exact to="/AnimalLabel" onClick={this.onLabelItemsClick}>
+                        <LinkContainer exact to="/AnimalLabel">
                             <NavItem>Predict</NavItem>
                         </LinkContainer>
-                        <LinkContainer exact to="/Reports" onClick={this.onNavItemClick}>
+                        <LinkContainer exact to="/Reports">
                             <NavItem>Reports</NavItem>
                         </LinkContainer>
-                        <LinkContainer exact to="/Contact" onClick={this.onNavItemClick}>
+                        <LinkContainer exact to="/Contact">
                             <NavItem>Contact</NavItem>
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         );
-    }
-
-    private onNavItemClick() {
-        document.getElementById("label-dropdown")!.style.backgroundColor = "";
-    }
-
-    private onNavDropdownClick() {
-        $(".home-nav").removeClass('active');
-    }
-
-    private onLabelItemsClick() {
-        setTimeout(() => {
-            $(".label-nav").removeClass('active');
-            document.getElementById("label-dropdown")!.style.backgroundColor = "#e7e7e7";
-        });
     }
 }

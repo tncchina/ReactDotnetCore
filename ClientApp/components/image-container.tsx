@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Col, Image } from "react-bootstrap";
 import { Predictor } from '../Common/predictor';
-import { ImageUploader } from '../Common/image-uploader';
 import { IBlobInfo } from '../Common/iblob-info';
 import * as azureblob from '../resources/azurestoragejs-2.10.100/bundle/azure-storage.blob';
 
@@ -14,6 +13,7 @@ export interface ImageContainerProps {
 
 export interface ImageContainerState {
     prediction: any[];
+    imageUrl?: string;
 }
 
 export class ImageContainer extends React.Component<ImageContainerProps, ImageContainerState> {
@@ -22,7 +22,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
     constructor(props: any) {
         super(props);
         this.state = {
-            prediction: []
+            prediction: [],
         };
     }
 
@@ -32,7 +32,9 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
         } else {
             return (
                 <Col xs={6} md={3}>
-                    <Image src={URL.createObjectURL(this.props.image)} thumbnail />
+                    <canvas ref='canvas' className='hidden'></canvas>
+                    <img ref='image' src={URL.createObjectURL(this.props.image)} className='hidden'/>
+                    <Image src={this.state.imageUrl? this.state.imageUrl : URL.createObjectURL(this.props.image)} thumbnail />
                     <div>
                         {this.state.prediction.length ? this.renderPrediction() : `Waiting for prediction`}
                     </div>
@@ -134,16 +136,31 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
             }),
             body: JSON.stringify(blobUri)
         }).then((response) => {
-            console.log('[response]:', response, blobUri);
             return response.json();
         }).then((json) => {
-            console.log(json);
-            console.log('[prediction]: ', json, blobUri);
             if (!json["Predictions"]) {
                 return;
             }
+            // TODO: Needs to draw multiple bunding box.
+            const { Region } = json['Predictions'][0];
+            const canvas = this.refs.canvas as any;
+            const img = this.refs.image as any;
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            ctx.lineWidth = "50";
+            ctx.strokeStyle= "red";
+            ctx.rect(
+                img.width * Region.Left,
+                img.height * Region.Top,
+                img.width * Region.Width,
+                img.height * Region.Height,
+            );
+            ctx.stroke();
             this.setState({
-                prediction: json["Predictions"]
+                imageUrl: canvas.toDataURL(),
+                prediction: json["Predictions"],
             });
         }).catch(err => console.log('[err]: ', err, blobUri));
     }
