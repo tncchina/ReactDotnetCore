@@ -105,11 +105,12 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
                         <Modal.Title>Upload Photoes</Modal.Title>
                     </Modal.Header>
                     <Form className="form-content">
-                        <FormGroup>
+                        {/* TODO: Needs to uncomment after demo */}
+                        {/*<FormGroup>
                             <ControlLabel>Location</ControlLabel>
                             <FormControl type='text' label="Location" onChange={(e) => this.location = (e.target as HTMLInputElement).value}/>
                             <HelpBlock>{`Pleaes input the location name of the photoes`}</HelpBlock>
-                        </FormGroup>
+                        </FormGroup> */}
                         <FormGroup>
                             <ControlLabel>Upload Photoes</ControlLabel>
                             <FormControl type='file' label="File" multiple onChange={(e) => this.files = (e.target as HTMLInputElement).files}/>
