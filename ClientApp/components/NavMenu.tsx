@@ -23,9 +23,9 @@ export class NavMenu extends React.Component {
                         <LinkContainer exact to="/AnimalLabel">
                             <NavItem>Predict</NavItem>
                         </LinkContainer>
-                        <LinkContainer exact to="/Reports">
+                        {/* <LinkContainer exact to="/Reports">
                             <NavItem>Reports</NavItem>
-                        </LinkContainer>
+                        </LinkContainer> */}
                         <LinkContainer exact to="/Contact">
                             <NavItem>Contact</NavItem>
                         </LinkContainer>

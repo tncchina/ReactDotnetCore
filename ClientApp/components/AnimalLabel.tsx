@@ -70,18 +70,31 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
     public render(): JSX.Element {
         if (this.state.imageUrl.length > 0) {
             return (
-                <ImageGallery
-                    location={this.location}
-                    images={this.state.images}
-                    prediction={this.state.prediction}
-                />
-
+                <div>
+                    <div>
+                        <header className="App-header">
+                            Please upload images to predict
+                        </header>
+                        <br />
+                        {this.renderModal()}
+                        <Button onClick={() => this.setState({ showModal: true })}>Upload</Button>
+                        <br />
+                        <figure>
+                            <figcaption> {this.renderPrediction()} </figcaption>
+                        </figure>
+                    </div>
+                    <ImageGallery
+                        location={this.location}
+                        images={this.state.images}
+                        prediction={this.state.prediction}
+                    />
+                </div>
             );
         }
         return (
             <div>
                 <header className="App-header">
-                    Please upload images to predicat
+                    Please upload images to predict
                 </header>
                 <br />
                 {this.renderModal()}
@@ -113,13 +126,16 @@ export class AnimalLabel extends React.Component<RouteComponentProps<{}>, Counte
                         </FormGroup> */}
                         <FormGroup>
                             <ControlLabel>Upload Photoes</ControlLabel>
-                            <FormControl type='file' label="File" multiple onChange={(e) => this.files = (e.target as HTMLInputElement).files}/>
+                            <FormControl type='file' label="File" multiple onChange={(e) => this.files = (e.target as HTMLInputElement).files} />
                             <HelpBlock>{`Pleaes upload the photoes corresponding to the location`}</HelpBlock>
                         </FormGroup>
                     </Form>
                     <Modal.Footer>
                         <Button onClick={() => this.setState({ showModal: false })}>Close</Button>
-                        <Button bsStyle="primary" onClick={() => this.handleUpload(this.files)}>Upload</Button>
+                        <Button bsStyle="primary" onClick={() => {
+                                this.handleUpload(this.files);
+                                this.setState({ showModal: false });
+                            }}>Upload</Button>
                     </Modal.Footer>
                 </Modal.Dialog>
             </div>

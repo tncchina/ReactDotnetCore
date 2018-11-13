@@ -149,7 +149,7 @@ export class ImageContainer extends React.Component<ImageContainerProps, ImageCo
             canvas.height = img.height;
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, img.width, img.height);
-            ctx.lineWidth = "50";
+            ctx.lineWidth = 0.008 * img.width;
             ctx.strokeStyle= "red";
             ctx.rect(
                 img.width * Region.Left,
